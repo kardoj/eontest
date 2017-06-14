@@ -1,6 +1,6 @@
 #include <iostream>
-#include "eon.h"
 #include "date.h"
+#include "eon.h"
 
 using namespace std;
 
