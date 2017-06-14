@@ -16,7 +16,7 @@ void TestCase::assert_dir_exists(const string path)
     }
     else
     {
-        cout << "Expected directory [" << path << "] does not exist.";
+        cout << " FAIL Expected directory [" << path << "] does not exist." << endl;
     }
 }
 
@@ -29,6 +29,6 @@ void TestCase::assert_file_exists(const string path)
     }
     else
     {
-        cout << "Expected file [" << path << "] does not exist.";
+        cout << " FAIL Expected file [" << path << "] does not exist." << endl;
     }
 }

@@ -8,8 +8,6 @@ class TestCase
     public:
         TestCase();
         virtual ~TestCase();
-
-    private:
         void assert_dir_exists(const std::string path);
         void assert_file_exists(const std::string path);
 };
