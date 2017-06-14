@@ -11,7 +11,7 @@ int main()
     int argc = 1;
     char a1[] = { "eon " };
     char a2[] = { "" };
-    char *argv[] = { a1, a2 };
+    const char *argv[] = { a1, a2 };
 
     Eon eon = Eon(argc, argv);
 
