@@ -9,7 +9,7 @@ class TreeTest : public TestCase
         TreeTest();
         virtual ~TreeTest();
 
-        void init_creates_required_files_and_folders();
+        void init_creates_required_folders_and_files();
         void init_does_not_run_when_already_an_eon_directory();
 };
 

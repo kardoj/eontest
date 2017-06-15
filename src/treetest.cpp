@@ -8,13 +8,13 @@
 using namespace std;
 
 TreeTest::TreeTest() {
-    init_creates_required_files_and_folders();
+    init_creates_required_folders_and_files();
     init_does_not_run_when_already_an_eon_directory();
 }
 
 TreeTest::~TreeTest() {}
 
-void TreeTest::init_creates_required_files_and_folders()
+void TreeTest::init_creates_required_folders_and_files()
 {
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
@@ -48,6 +48,7 @@ void TreeTest::init_does_not_run_when_already_an_eon_directory()
 
     string datetime = Date::current_date_with_time();
     vector<string> messages_human;
-    assert_true(Tree::init(datetime, messages_human), "Tree::init()");
-    assert_false(Tree::init(datetime, messages_human), "Tree::init()");
+    assert_true(Tree::init(datetime, messages_human), "The first Tree::init()");
+    assert_false(Tree::init(datetime, messages_human), "Tree::init() after the first init");
+    assert_equal(messages_human.at(0), Tree::MSG_ALREADY_INITIALIZED);
 }
