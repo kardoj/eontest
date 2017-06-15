@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "date.h"
 #include "project.h"
 #include "tree.h"
@@ -8,6 +9,7 @@ using namespace std;
 
 TreeTest::TreeTest() {
     init_creates_required_files_and_folders();
+    init_does_not_run_when_already_an_eon_directory();
 }
 
 TreeTest::~TreeTest() {}
@@ -18,7 +20,8 @@ void TreeTest::init_creates_required_files_and_folders()
     remove_dir_recursively(Tree::ROOT_DIR);
 
     string datetime = Date::current_date_with_time();
-    assert_true(Tree::init(datetime), "Tree::init()");
+    vector<string> messages_human;
+    assert_true(Tree::init(datetime, messages_human), "Tree::init()");
 
     assert_dir_exists(Tree::ROOT_DIR);
     assert_dir_exists(Tree::PROJECTS_DIR);
@@ -36,4 +39,15 @@ void TreeTest::init_creates_required_files_and_folders()
     char config_str[30];
     Tree::initial_config_str(datetime.substr(0, 11), config_str);
     assert_file_contents_equal(config_str, Tree::CONFIG_FILE, MAX_ROW_LENGTH_DEFAULT);
+}
+
+void TreeTest::init_does_not_run_when_already_an_eon_directory()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    string datetime = Date::current_date_with_time();
+    vector<string> messages_human;
+    assert_true(Tree::init(datetime, messages_human), "Tree::init()");
+    assert_false(Tree::init(datetime, messages_human), "Tree::init()");
 }
