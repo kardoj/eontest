@@ -2,6 +2,7 @@
 #define TESTCASE_H
 
 #include <string>
+#include <vector>
 
 class TestCase
 {
@@ -19,6 +20,7 @@ class TestCase
         void assert_false(const bool value, const std::string what_is_it);
         void assert_file_exists(const std::string path);
         void assert_true(const bool value, const std::string what_is_it);
+        void assert_vector_contains(const std::vector<std::string> v, const std::string key);
 
     protected:
         void remove_dir_recursively(const std::string path);
