@@ -103,4 +103,5 @@ void TestCase::remove_dir_recursively(const string path)
             cout << " ERROR TestCase::remove_dir_recursively could not remove a directory: " << ent_path << endl;
         }
     }
+    // Not finding a given directory is intentionally left unhandled to allow for "just making sure" removals
 }
