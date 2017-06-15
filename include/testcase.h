@@ -16,6 +16,7 @@ class TestCase
             const std::string path,
             const unsigned max_row_length
         );
+        void assert_false(const bool value, const std::string what_is_it);
         void assert_file_exists(const std::string path);
         void assert_true(const bool value, const std::string what_is_it);
 

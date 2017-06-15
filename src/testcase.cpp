@@ -44,6 +44,13 @@ void TestCase::assert_file_contents_equal(const string contents, const string pa
         cout << " FAIL Expected [" << contents << "] to be equal to [" << file_contents << "]." << endl;
     }
 }
+void TestCase::assert_false(const bool value, const string what_is_it)
+{
+    if (value)
+    {
+        cout << " FAIL Expected [" << what_is_it << "] to be false but was true." << endl;
+    }
+}
 
 void TestCase::assert_file_exists(const string path)
 {
