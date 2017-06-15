@@ -115,7 +115,7 @@ void TestCase::remove_dir_recursively(const string path)
 
 void TestCase::assert_equal(const string one, const string two)
 {
-    if (v.at(i).compare(key) != 0)
+    if (one.compare(two) != 0)
     {
         cout << " FAIL Expected a string [" << one << "] to be equal to [" << two << "] but it was not." << endl;
     }
