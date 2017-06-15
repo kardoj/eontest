@@ -1,5 +1,6 @@
 #include <dirent.h>
 #include <iostream>
+#include <stdio.h>
 #include "testcase.h"
 
 using namespace std;
@@ -62,5 +63,44 @@ void TestCase::assert_true(const bool value, const string what_is_it)
     if (!value)
     {
         cout << " FAIL Expected [" << what_is_it << "] to be true but was false." << endl;
+    }
+}
+
+void TestCase::remove_dir_recursively(const string path)
+{
+    DIR *d = opendir(path.c_str());
+    dirent *ent = 0;
+    string ent_path, ent_name;
+    if (d != NULL)
+    {
+        while((ent = readdir(d)) != NULL)
+        {
+            ent_name = string(ent->d_name);
+            if (ent_name.compare(".") == 0 || ent_name.compare("..") == 0) continue;
+
+            ent_path = path + "/" + ent_name;
+            if (ent->d_type == DT_REG)
+            {
+                if (remove(ent_path.c_str()) != 0)
+                {
+                    cout << " ERROR TestCase::remove_dir_recursively could not remove a file: " << ent_path << endl;
+                    break;
+                }
+            }
+            else if (ent->d_type == DT_DIR)
+            {
+                remove_dir_recursively(ent_path);
+            }
+            else
+            {
+                cout << " ERROR TestCase::remove_dir_recursively received a path to an unknown entity: " << ent_path << endl;
+                break;
+            }
+        }
+        closedir(d);
+        if (rmdir(path.c_str()) != 0)
+        {
+            cout << " ERROR TestCase::remove_dir_recursively could not remove a directory: " << ent_path << endl;
+        }
     }
 }

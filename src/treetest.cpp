@@ -14,8 +14,9 @@ TreeTest::~TreeTest() {}
 
 void TreeTest::init_creates_required_files_and_folders()
 {
-    // TODO: Delete all the folders before running this test
     cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
     string datetime = Date::current_date_with_time();
     assert_true(Tree::init(datetime), "Tree::init()");
 

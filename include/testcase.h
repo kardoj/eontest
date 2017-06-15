@@ -18,6 +18,9 @@ class TestCase
         );
         void assert_file_exists(const std::string path);
         void assert_true(const bool value, const std::string what_is_it);
+
+    protected:
+        void remove_dir_recursively(const std::string path);
 };
 
 #endif // TESTCASE_H
