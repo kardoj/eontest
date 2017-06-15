@@ -113,15 +113,10 @@ void TestCase::remove_dir_recursively(const string path)
     // Not finding a given directory is intentionally left unhandled to allow for "just making sure" removals
 }
 
-void TestCase::assert_vector_contains(const vector<string> v, const string key)
+void TestCase::assert_equal(const string one, const string two)
 {
-    unsigned cnt = v.size();
-    for (unsigned i = 0; i < cnt; i++)
+    if (v.at(i).compare(key) != 0)
     {
-        if (v.at(i).compare(key) == 0)
-        {
-            return;
-        }
+        cout << " FAIL Expected a string [" << one << "] to be equal to [" << two << "] but it was not." << endl;
     }
-    cout << " FAIL Expected a vector to contain [" << key << "] but it did not." << endl;
 }
