@@ -7,12 +7,15 @@
 
 using namespace std;
 
-TreeTest::TreeTest() {
+TreeTest::TreeTest() {}
+TreeTest::~TreeTest() {}
+
+void TreeTest::test()
+{
+    // All the tests should be called here
     init_creates_required_folders_and_files();
     init_does_not_run_when_already_an_eon_directory();
 }
-
-TreeTest::~TreeTest() {}
 
 void TreeTest::init_creates_required_folders_and_files()
 {

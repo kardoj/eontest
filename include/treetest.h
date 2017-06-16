@@ -11,6 +11,7 @@ class TreeTest : public TestCase
 
         void init_creates_required_folders_and_files();
         void init_does_not_run_when_already_an_eon_directory();
+        void test();
 };
 
 #endif // TREETEST_H

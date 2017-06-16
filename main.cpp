@@ -16,5 +16,7 @@ int main()
     Eon eon = Eon(argc, argv);
 
     TreeTest tt = TreeTest();
+    tt.test();
+
     return 0;
 }
