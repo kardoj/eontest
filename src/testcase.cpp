@@ -117,6 +117,6 @@ void TestCase::assert_equal(const string one, const string two)
 {
     if (one.compare(two) != 0)
     {
-        cout << " FAIL Expected a string [" << one << "] to be equal to [" << two << "] but it was not." << endl;
+        cout << " FAIL Expected a string [" << one << "] to be equal to [" << two << "]." << endl;
     }
 }

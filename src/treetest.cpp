@@ -13,8 +13,9 @@ TreeTest::~TreeTest() {}
 void TreeTest::test()
 {
     // All the tests should be called here
-    init_creates_required_folders_and_files();
-    init_does_not_run_when_already_an_eon_directory();
+    //init_creates_required_folders_and_files();
+    init_does_not_continue_when_root_dir_fails();
+    //init_does_not_run_when_already_an_eon_directory();
 }
 
 void TreeTest::init_creates_required_folders_and_files()
@@ -42,6 +43,24 @@ void TreeTest::init_creates_required_folders_and_files()
     char config_str[30];
     Tree::initial_config_str(datetime.substr(0, 11), config_str);
     assert_file_contents_equal(config_str, Tree::CONFIG_FILE, MAX_ROW_LENGTH_DEFAULT);
+}
+
+void TreeTest::init_does_not_continue_when_root_dir_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    string datetime = Date::current_date_with_time();
+    vector<string> messages_human;
+    class FailingTree : public Tree {
+        bool create_dir(const char path[])
+        {
+            if (string(path).compare(ROOT_DIR) == 0) return false;
+            Tree::create_dir(path);
+        }
+    };
+    assert_false(FailingTree::init(datetime, messages_human), "FailingTree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_ROOT_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_run_when_already_an_eon_directory()
