@@ -14,7 +14,7 @@ class TreeTest : public TestCase
         void init_does_not_continue_when_root_dir_fails();
         void init_does_not_continue_when_entries_dir_fails();
         void init_does_not_continue_when_projects_dir_fails();
-        void init_does_not_run_when_already_an_eon_directory();
+        void init_does_not_run_when_already_an_eon_dir();
         void test();
 
     private:

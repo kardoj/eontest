@@ -19,7 +19,7 @@ void TreeTest::test()
     init_does_not_continue_when_root_dir_fails();
     init_does_not_continue_when_entries_dir_fails();
     init_does_not_continue_when_projects_dir_fails();
-    init_does_not_run_when_already_an_eon_directory();
+    init_does_not_run_when_already_an_eon_dir();
 }
 
 void TreeTest::init_creates_required_folders_and_files()
@@ -100,7 +100,7 @@ void TreeTest::init_does_not_continue_when_projects_dir_fails()
     assert_equal(messages_human.at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
-void TreeTest::init_does_not_run_when_already_an_eon_directory()
+void TreeTest::init_does_not_run_when_already_an_eon_dir()
 {
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
