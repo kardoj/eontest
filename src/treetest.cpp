@@ -76,7 +76,7 @@ void TreeTest::init_does_not_continue_when_entries_dir_fails()
 
     class FailingEntriesDirTree : public Tree
     {
-        const char * entries_dir()
+        const char *entries_dir()
         {
             return "not*a*valid*dir";
         }
@@ -93,7 +93,7 @@ void TreeTest::init_does_not_continue_when_projects_dir_fails()
 
     class FailingProjectsDirTree : public Tree
     {
-        const char * projects_dir()
+        const char *projects_dir()
         {
             return "not*a*valid*dir";
         }
@@ -122,7 +122,7 @@ void TreeTest::init_fails_if_config_file_fails()
 
     class FailingConfigFileTree : public Tree
     {
-        const char * config_file()
+        const char *config_file()
         {
             return "not*a*valid*file";
         }
@@ -139,7 +139,7 @@ void TreeTest::init_fails_if_entries_id_file_fails()
 
     class FailingEntriesIdFileTree : public Tree
     {
-        const char * entries_id_file()
+        const char *entries_id_file()
         {
             return "not*a*valid*file";
         }
@@ -173,7 +173,7 @@ void TreeTest::init_fails_if_project_id_file_fails()
 
     class FailingProjectsIdFileTree : public Tree
     {
-        const char * projects_id_file()
+        const char *projects_id_file()
         {
             return "not*a*valid*file";
         }
@@ -190,7 +190,7 @@ void TreeTest::init_fails_if_projects_file_fails()
 
     class FailingProjectsFileTree : public Tree
     {
-        const char * projects_file()
+        const char *projects_file()
         {
             return "not*a*valid*file";
         }
