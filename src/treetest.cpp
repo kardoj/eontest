@@ -7,10 +7,7 @@
 
 using namespace std;
 
-TreeTest::TreeTest() {
-    tree = Tree();
-}
-
+TreeTest::TreeTest() {}
 TreeTest::~TreeTest() {}
 
 void TreeTest::test()
@@ -20,6 +17,12 @@ void TreeTest::test()
     init_does_not_continue_when_entries_dir_fails();
     init_does_not_continue_when_projects_dir_fails();
     init_does_not_run_when_already_an_eon_dir();
+    init_fails_if_config_file_fails();
+    init_fails_if_entries_id_file_fails();
+    init_fails_if_first_project_fails();
+    init_fails_if_project_id_file_fails();
+    init_fails_if_projects_file_fails();
+    initial_config_string_is_correct();
 }
 
 void TreeTest::init_creates_required_folders_and_files()
@@ -110,4 +113,103 @@ void TreeTest::init_does_not_run_when_already_an_eon_dir()
     assert_true(tree.init(datetime, messages_human), "The first Tree::init()");
     assert_false(tree.init(datetime, messages_human), "Tree::init() after the first init");
     assert_equal(messages_human.at(0), Tree::MSG_ALREADY_INITIALIZED);
+}
+
+void TreeTest::init_fails_if_config_file_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingConfigFileTree : public Tree
+    {
+        const char * config_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingConfigFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+}
+
+void TreeTest::init_fails_if_entries_id_file_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingEntriesIdFileTree : public Tree
+    {
+        const char * entries_id_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingEntriesIdFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+}
+
+void TreeTest::init_fails_if_first_project_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingFirstProjectTree : public Tree
+    {
+        bool add_default_project(const string datetime)
+        {
+            return false;
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingFirstProjectTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+}
+
+void TreeTest::init_fails_if_project_id_file_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingProjectsIdFileTree : public Tree
+    {
+        const char * projects_id_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingProjectsIdFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+}
+
+void TreeTest::init_fails_if_projects_file_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingProjectsFileTree : public Tree
+    {
+        const char * projects_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingProjectsFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+}
+
+void TreeTest::initial_config_string_is_correct()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    string datetime = Date::current_date();
+    string dte = Date::current_date();
+    char initial_config_str[Tree::INITIAL_CONFIG_LENGTH];
+    vector<string> messages_human;
+    tree.init(datetime, messages_human);
+    tree.initial_config_str(dte, initial_config_str);
+    assert_equal("date=" + dte + "\nproject_id=1\n", string(initial_config_str));
 }
