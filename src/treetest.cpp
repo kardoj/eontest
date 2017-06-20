@@ -15,9 +15,10 @@ TreeTest::~TreeTest() {}
 
 void TreeTest::test()
 {
-    // All the tests should be called here
     init_creates_required_folders_and_files();
     init_does_not_continue_when_root_dir_fails();
+    init_does_not_continue_when_entries_dir_fails();
+    init_does_not_continue_when_projects_dir_fails();
     init_does_not_run_when_already_an_eon_directory();
 }
 
@@ -60,11 +61,43 @@ void TreeTest::init_does_not_continue_when_root_dir_fails()
             return "not*a*valid*dir";
         }
     };
-
-    string datetime = Date::current_date_with_time();
     vector<string> messages_human;
-    assert_false(FailingRootTree().init(datetime, messages_human), "Tree::init()");
+    assert_false(FailingRootTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
     assert_equal(messages_human.at(0), Tree::MSG_ROOT_DIR_FAILURE);
+}
+
+void TreeTest::init_does_not_continue_when_entries_dir_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingEntriesDirTree : public Tree
+    {
+        const char * entries_dir()
+        {
+            return "not*a*valid*dir";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingEntriesDirTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
+}
+
+void TreeTest::init_does_not_continue_when_projects_dir_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    class FailingProjectsDirTree : public Tree
+    {
+        const char * projects_dir()
+        {
+            return "not*a*valid*dir";
+        }
+    };
+    vector<string> messages_human;
+    assert_false(FailingProjectsDirTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
+    assert_equal(messages_human.at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_run_when_already_an_eon_directory()
