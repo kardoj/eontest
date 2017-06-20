@@ -17,7 +17,7 @@ void TestCase::assert_dir_exists(const string path)
     }
     else
     {
-        cout << " FAIL Expected directory [" << path << "] does not exist." << endl;
+        cout << "-- FAIL Expected directory [" << path << "] does not exist." << endl;
     }
 }
 
@@ -36,19 +36,19 @@ void TestCase::assert_file_contents_equal(const string contents, const string pa
         fclose(fp);
         if (file_contents.compare(contents) != 0)
         {
-            cout << " FAIL Expected [" << contents << "] to be equal to [" << file_contents << "]." << endl;
+            cout << "-- FAIL Expected [" << contents << "] to be equal to [" << file_contents << "]." << endl;
         }
     }
     else
     {
-        cout << " FAIL Expected [" << contents << "] to be equal to [" << file_contents << "]." << endl;
+        cout << "-- FAIL Expected [" << contents << "] to be equal to [" << file_contents << "]." << endl;
     }
 }
 void TestCase::assert_false(const bool value, const string what_is_it)
 {
     if (value)
     {
-        cout << " FAIL Expected [" << what_is_it << "] to be false but was true." << endl;
+        cout << "-- FAIL Expected [" << what_is_it << "] to be false but was true." << endl;
     }
 }
 
@@ -61,7 +61,7 @@ void TestCase::assert_file_exists(const string path)
     }
     else
     {
-        cout << " FAIL Expected file [" << path << "] does not exist." << endl;
+        cout << "-- FAIL Expected file [" << path << "] does not exist." << endl;
     }
 }
 
@@ -69,7 +69,7 @@ void TestCase::assert_true(const bool value, const string what_is_it)
 {
     if (!value)
     {
-        cout << " FAIL Expected [" << what_is_it << "] to be true but was false." << endl;
+        cout << "-- FAIL Expected [" << what_is_it << "] to be true but was false." << endl;
     }
 }
 
@@ -77,7 +77,7 @@ void TestCase::remove_dir_recursively(const string path)
 {
     DIR *d = opendir(path.c_str());
     dirent *ent = 0;
-    string ent_path, ent_name;
+    string entity_path, ent_name;
     if (d != NULL)
     {
         while((ent = readdir(d)) != NULL)
@@ -85,29 +85,29 @@ void TestCase::remove_dir_recursively(const string path)
             ent_name = string(ent->d_name);
             if (ent_name.compare(".") == 0 || ent_name.compare("..") == 0) continue;
 
-            ent_path = path + "/" + ent_name;
+            entity_path = path + "/" + ent_name;
             if (ent->d_type == DT_REG)
             {
-                if (remove(ent_path.c_str()) != 0)
+                if (remove(entity_path.c_str()) != 0)
                 {
-                    cout << " ERROR TestCase::remove_dir_recursively could not remove a file: " << ent_path << endl;
+                    cout << "-- ERROR TestCase::remove_dir_recursively could not remove a file: " << entity_path << endl;
                     break;
                 }
             }
             else if (ent->d_type == DT_DIR)
             {
-                remove_dir_recursively(ent_path);
+                remove_dir_recursively(entity_path);
             }
             else
             {
-                cout << " ERROR TestCase::remove_dir_recursively received a path to an unknown entity: " << ent_path << endl;
+                cout << "-- ERROR TestCase::remove_dir_recursively received a path to an unknown entity: " << entity_path << endl;
                 break;
             }
         }
         closedir(d);
         if (rmdir(path.c_str()) != 0)
         {
-            cout << " ERROR TestCase::remove_dir_recursively could not remove a directory: " << ent_path << endl;
+            cout << "-- ERROR TestCase::remove_dir_recursively could not remove a directory: " << entity_path << endl;
         }
     }
     // Not finding a given directory is intentionally left unhandled to allow for "just making sure" removals
@@ -117,6 +117,6 @@ void TestCase::assert_equal(const string one, const string two)
 {
     if (one.compare(two) != 0)
     {
-        cout << " FAIL Expected a string [" << one << "] to be equal to [" << two << "]." << endl;
+        cout << "-- FAIL Expected a string [" << one << "] to be equal to [" << two << "]." << endl;
     }
 }

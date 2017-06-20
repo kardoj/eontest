@@ -13,9 +13,9 @@ TreeTest::~TreeTest() {}
 void TreeTest::test()
 {
     // All the tests should be called here
-    //init_creates_required_folders_and_files();
+    init_creates_required_folders_and_files();
     init_does_not_continue_when_root_dir_fails();
-    //init_does_not_run_when_already_an_eon_directory();
+    init_does_not_run_when_already_an_eon_directory();
 }
 
 void TreeTest::init_creates_required_folders_and_files()
@@ -52,14 +52,7 @@ void TreeTest::init_does_not_continue_when_root_dir_fails()
 
     string datetime = Date::current_date_with_time();
     vector<string> messages_human;
-    class FailingTree : public Tree {
-        bool create_dir(const char path[])
-        {
-            if (string(path).compare(ROOT_DIR) == 0) return false;
-            Tree::create_dir(path);
-        }
-    };
-    assert_false(FailingTree::init(datetime, messages_human), "FailingTree::init()");
+    assert_false(Tree::init(datetime, messages_human), "Tree::init()");
     assert_equal(messages_human.at(0), Tree::MSG_ROOT_DIR_FAILURE);
 }
 
