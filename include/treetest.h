@@ -10,6 +10,7 @@ class TreeTest : public TestCase
         TreeTest();
         virtual ~TreeTest();
 
+        void ensure_year_dir_creates_year_dir_if_needed();
         void init_creates_required_folders_and_files();
         void init_does_not_continue_when_root_dir_fails();
         void init_does_not_continue_when_entries_dir_fails();
@@ -21,6 +22,8 @@ class TreeTest : public TestCase
         void init_fails_if_project_id_file_fails();
         void init_fails_if_projects_file_fails();
         void initial_config_string_is_correct();
+        void is_eon_dir();
+        void is_not_eon_dir();
         void test();
 
     private:

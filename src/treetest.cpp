@@ -12,6 +12,8 @@ TreeTest::~TreeTest() {}
 
 void TreeTest::test()
 {
+    cout << "=== TreeTest ===" << endl;
+    ensure_year_dir_creates_year_dir_if_needed();
     init_creates_required_folders_and_files();
     init_does_not_continue_when_root_dir_fails();
     init_does_not_continue_when_entries_dir_fails();
@@ -23,6 +25,8 @@ void TreeTest::test()
     init_fails_if_project_id_file_fails();
     init_fails_if_projects_file_fails();
     initial_config_string_is_correct();
+    is_eon_dir();
+    is_not_eon_dir();
 }
 
 void TreeTest::init_creates_required_folders_and_files()
@@ -205,11 +209,43 @@ void TreeTest::initial_config_string_is_correct()
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
 
-    string datetime = Date::current_date();
+    string datetime = Date::current_date_with_time();
     string dte = Date::current_date();
     char initial_config_str[Tree::INITIAL_CONFIG_LENGTH];
     vector<string> messages_human;
     tree.init(datetime, messages_human);
     tree.initial_config_str(dte, initial_config_str);
     assert_equal("date=" + dte + "\nproject_id=1\n", string(initial_config_str));
+}
+
+void TreeTest::is_eon_dir()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    vector<string> messages_human;
+    tree.init(Date::current_date_with_time(), messages_human);
+    assert_true(Tree::is_eon_dir(), "Tree::is_eon_dir()");
+}
+
+void TreeTest::is_not_eon_dir()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    assert_false(Tree::is_eon_dir(), "Tree::is_eon_dir()");
+}
+
+void TreeTest::ensure_year_dir_creates_year_dir_if_needed()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    vector<string> messages_human;
+    tree.init(Date::current_date_with_time(), messages_human);
+    string year = "2025";
+    string test_path = string(Tree::ENTRIES_DIR) + "/" + year;
+    assert_dir_not_exists(test_path);
+    Tree::ensure_year_dir(year);
+    assert_dir_exists(test_path);
 }
