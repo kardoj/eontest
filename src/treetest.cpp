@@ -27,6 +27,7 @@ void TreeTest::test()
     initial_config_string_is_correct();
     is_eon_dir();
     is_not_eon_dir();
+    cout << endl;
 }
 
 void TreeTest::init_creates_required_folders_and_files()
