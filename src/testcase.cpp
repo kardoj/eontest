@@ -1,6 +1,7 @@
 #include <dirent.h>
 #include <iostream>
 #include <stdio.h>
+#include "sys/stat.h"
 #include "testcase.h"
 
 using namespace std;
@@ -77,6 +78,7 @@ void TestCase::remove_dir_recursively(const string path)
 {
     DIR *d = opendir(path.c_str());
     dirent *ent = 0;
+    struct stat s;
     string entity_path, ent_name;
     if (d != NULL)
     {
@@ -86,22 +88,18 @@ void TestCase::remove_dir_recursively(const string path)
             if (ent_name.compare(".") == 0 || ent_name.compare("..") == 0) continue;
 
             entity_path = path + "/" + ent_name;
-            if (ent->d_type == DT_REG)
-            {
-                if (remove(entity_path.c_str()) != 0)
-                {
-                    cout << "-- ERROR TestCase::remove_dir_recursively could not remove a file: " << entity_path << endl;
-                    break;
-                }
-            }
-            else if (ent->d_type == DT_DIR)
+            stat(entity_path.c_str(), &s);
+            if (S_ISDIR(s.st_mode))
             {
                 remove_dir_recursively(entity_path);
             }
             else
             {
-                cout << "-- ERROR TestCase::remove_dir_recursively received a path to an unknown entity: " << entity_path << endl;
-                break;
+                if (remove(entity_path.c_str()) != 0)
+                {
+                    cout << "-- ERROR TestCase::remove_dir_recursively could not remove a file: " << entity_path << endl;
+                    return;
+                }
             }
         }
         closedir(d);
