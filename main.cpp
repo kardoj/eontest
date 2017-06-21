@@ -1,6 +1,7 @@
 #include <iostream>
 #include "date.h"
 #include "eon.h"
+#include "projecttest.h"
 #include "treetest.h"
 
 using namespace std;
@@ -14,6 +15,9 @@ int main()
     const char *argv[] = { a1, a2 };
 
     Eon eon = Eon(argc, argv);
+
+    ProjectTest pt = ProjectTest();
+    pt.test();
 
     TreeTest tt = TreeTest();
     tt.test();
