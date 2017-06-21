@@ -22,6 +22,17 @@ void TestCase::assert_dir_exists(const string path)
     }
 }
 
+void TestCase::assert_dir_not_exists(const string path)
+{
+    DIR *d = opendir(path.c_str());
+    if (d != NULL)
+    {
+        closedir(d);
+        cout << "-- FAIL Expected directory [" << path << "] to not exist." << endl;
+    }
+}
+
+
 void TestCase::assert_file_contents_equal(const string contents, const string path, const unsigned max_row_length)
 {
     string file_contents = "";

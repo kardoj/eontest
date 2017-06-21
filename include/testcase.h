@@ -11,6 +11,7 @@ class TestCase
         TestCase();
         virtual ~TestCase();
         void assert_dir_exists(const std::string path);
+        void assert_dir_not_exists(const std::string path);
         void assert_file_contents_equal(
             const std::string contents,
             const std::string path,
