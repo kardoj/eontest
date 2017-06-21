@@ -26,8 +26,9 @@ void ProjectTest::adds_new_project()
     vector<string> messages_human;
     Tree().init(datetime, messages_human);
     char name[] = { "new project" };
-    Project::add(name, datetime);
+    Project::add(name, datetime, messages_human);
     string expected_str = "1 \"" + string(Project::DEFAULT_PROJECT_NAME) + "\" " + datetime + " " + datetime + "\n" +
                           "2 \"" + name + "\" " + datetime + " " + datetime + "\n";
     assert_file_contents_equal(expected_str, Tree::PROJECTS_FILE, MAX_ROW_LENGTH_DEFAULT);
+    assert_equal(Project::msg_project_added(name), messages_human.at(1));
 }
