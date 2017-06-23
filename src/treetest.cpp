@@ -117,7 +117,7 @@ void TreeTest::init_does_not_run_when_already_an_eon_dir()
     vector<string> messages_human;
     assert_true(tree.init(datetime, messages_human), "The first Tree::init()");
     assert_false(tree.init(datetime, messages_human), "Tree::init() after the first init");
-    assert_equal(messages_human.at(0), Tree::MSG_ALREADY_INITIALIZED);
+    assert_equal(messages_human.at(1), Tree::MSG_ALREADY_INITIALIZED);
 }
 
 void TreeTest::init_fails_if_config_file_fails()
