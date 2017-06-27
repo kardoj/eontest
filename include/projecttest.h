@@ -12,6 +12,8 @@ class ProjectTest : public TestCase
         void adds_new_project();
         void fails_adding_a_project_if_projects_file_fails();
         void fails_adding_a_project_if_projects_id_file_fails();
+        void project_does_not_exist();
+        void project_exists();
         void test();
 };
 

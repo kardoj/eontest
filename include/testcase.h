@@ -21,6 +21,7 @@ class TestCase
         void assert_file_exists(const std::string path);
         void assert_true(const bool value, const std::string what_is_it);
         void assert_equal(const std::string one, const std::string two);
+        void assert_equal(const int one, const int two);
 
     protected:
         void remove_dir_recursively(const std::string path);

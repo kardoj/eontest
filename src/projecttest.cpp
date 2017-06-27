@@ -16,6 +16,8 @@ void ProjectTest::test()
     adds_new_project();
     fails_adding_a_project_if_projects_file_fails();
     fails_adding_a_project_if_projects_id_file_fails();
+    project_does_not_exist();
+    project_exists();
     cout << endl;
 }
 
@@ -81,4 +83,36 @@ void ProjectTest::fails_adding_a_project_if_projects_id_file_fails()
         FailingProjectsIdFileProject().add(name, datetime, messages_human), "FailingProjectsIdFileProject().add()"
     );
     assert_equal(Project::MSG_ERROR_OPENING_ID_FILE, messages_human.at(1));
+}
+
+void ProjectTest::project_does_not_exist()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    vector<string> messages_human;
+    Tree().init(Date::current_date_with_time(), messages_human);
+
+    int project_id = 0;
+    assert_false(Project::exists("Some made up name", project_id, messages_human), "Made up project by name");
+    assert_equal(project_id, -1);
+    project_id = 0;
+    assert_false(Project::exists("3", project_id, messages_human), "Made up project by id");
+    assert_equal(project_id, -1);
+}
+
+void ProjectTest::project_exists()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    vector<string> messages_human;
+    Tree().init(Date::current_date_with_time(), messages_human);
+
+    int project_id = 0;
+    assert_true(Project::exists(Project::DEFAULT_PROJECT_NAME, project_id, messages_human), "Default project by name");
+    assert_equal(project_id, 1);
+    project_id = 0;
+    assert_true(Project::exists("1", project_id, messages_human), "Default project by id");
+    assert_equal(project_id, 1);
 }

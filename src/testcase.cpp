@@ -129,3 +129,11 @@ void TestCase::assert_equal(const string one, const string two)
         cout << "-- FAIL Expected a string [" << one << "] to be equal to [" << two << "]." << endl;
     }
 }
+
+void TestCase::assert_equal(const int one, const int two)
+{
+    if (one != two)
+    {
+        cout << "-- FAIL Expected an int [" << one << "] to be equal to [" << two << "]. " << endl;
+    }
+}
