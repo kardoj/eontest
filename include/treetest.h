@@ -16,9 +16,7 @@ class TreeTest : public TestCase
         void init_does_not_continue_when_projects_dir_fails();
         void init_does_not_run_when_already_an_eon_dir();
         void init_fails_if_config_file_fails();
-        void init_fails_if_entries_id_file_fails();
         void init_fails_if_first_project_fails();
-        void init_fails_if_project_id_file_fails();
         void init_fails_if_projects_file_fails();
         void initial_config_string_is_correct();
         void test();
