@@ -3,4 +3,7 @@ eondata/
 eontest.cbp
 eontest.depend
 eontest.layout
+.idea/
+CMakeLists.txt
+cmake-build-debug/
 obj/
