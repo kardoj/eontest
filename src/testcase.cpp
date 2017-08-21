@@ -1,6 +1,7 @@
 #include <dirent.h>
 #include <iostream>
 #include <stdio.h>
+#include "sys/stat.h"
 #include "testcase.h"
 
 using namespace std;
@@ -20,6 +21,17 @@ void TestCase::assert_dir_exists(const string path)
         cout << "-- FAIL Expected directory [" << path << "] does not exist." << endl;
     }
 }
+
+void TestCase::assert_dir_not_exists(const string path)
+{
+    DIR *d = opendir(path.c_str());
+    if (d != NULL)
+    {
+        closedir(d);
+        cout << "-- FAIL Expected directory [" << path << "] to not exist." << endl;
+    }
+}
+
 
 void TestCase::assert_file_contents_equal(const string contents, const string path, const unsigned max_row_length)
 {
@@ -77,6 +89,7 @@ void TestCase::remove_dir_recursively(const string path)
 {
     DIR *d = opendir(path.c_str());
     dirent *ent = 0;
+    struct stat s;
     string entity_path, ent_name;
     if (d != NULL)
     {
@@ -86,22 +99,18 @@ void TestCase::remove_dir_recursively(const string path)
             if (ent_name.compare(".") == 0 || ent_name.compare("..") == 0) continue;
 
             entity_path = path + "/" + ent_name;
-            if (ent->d_type == DT_REG)
-            {
-                if (remove(entity_path.c_str()) != 0)
-                {
-                    cout << "-- ERROR TestCase::remove_dir_recursively could not remove a file: " << entity_path << endl;
-                    break;
-                }
-            }
-            else if (ent->d_type == DT_DIR)
+            stat(entity_path.c_str(), &s);
+            if (S_ISDIR(s.st_mode))
             {
                 remove_dir_recursively(entity_path);
             }
             else
             {
-                cout << "-- ERROR TestCase::remove_dir_recursively received a path to an unknown entity: " << entity_path << endl;
-                break;
+                if (remove(entity_path.c_str()) != 0)
+                {
+                    cout << "-- ERROR TestCase::remove_dir_recursively could not remove a file: " << entity_path << endl;
+                    return;
+                }
             }
         }
         closedir(d);
@@ -118,5 +127,13 @@ void TestCase::assert_equal(const string one, const string two)
     if (one.compare(two) != 0)
     {
         cout << "-- FAIL Expected a string [" << one << "] to be equal to [" << two << "]." << endl;
+    }
+}
+
+void TestCase::assert_equal(const int one, const int two)
+{
+    if (one != two)
+    {
+        cout << "-- FAIL Expected an int [" << one << "] to be equal to [" << two << "]. " << endl;
     }
 }
