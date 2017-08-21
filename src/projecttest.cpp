@@ -17,6 +17,7 @@ void ProjectTest::test()
     fails_adding_a_project_if_projects_file_fails();
     project_does_not_exist();
     project_exists();
+    fails_listing_projects_if_projects_file_fails();
     cout << endl;
 }
 
@@ -90,4 +91,25 @@ void ProjectTest::project_exists()
     project_id = 0;
     assert_true(Project::exists("1", project_id, messages_human), "Default project by id");
     assert_equal(project_id, 1);
+}
+
+void ProjectTest::fails_listing_projects_if_projects_file_fails()
+{
+    cout << "TEST " << __FUNCTION__ << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+
+    string datetime = Date::current_date_with_time();
+    vector<string> messages_human;
+    Tree().init(datetime, messages_human);
+
+    class FailingProjectsFileProject : public Project
+    {
+        const char *projects_file()
+        {
+            return "not*a*file";
+        }
+    };
+
+    assert_false(FailingProjectsFileProject().list(1, messages_human), "FailingProjectsFileProject().list()");
+    assert_equal(Project::MSG_ERROR_OPENING_PROJECTS_FILE, messages_human.at(1));
 }
