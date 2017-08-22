@@ -10,10 +10,12 @@ class ProjectTest : public TestCase
         virtual ~ProjectTest();
 
         void adds_new_project();
+        void exists_fails_if_project_file_fails();
         void fails_adding_a_project_if_projects_file_fails();
         void fails_listing_projects_if_projects_file_fails();
         void project_does_not_exist();
         void project_exists();
+
         void test();
 };
 
