@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <vectorhelper.h>
 #include "date.h"
 #include "project.h"
 #include "tree.h"
@@ -62,10 +63,9 @@ void TreeTest::init_does_not_continue_when_root_dir_fails()
             return "not*a*valid*dir";
         }
     };
-    vector<string> messages_human;
     FailingRootTree frt;
     assert_false(frt.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(frt.get_messages().at(0), Tree::MSG_ROOT_DIR_FAILURE);
+    assert_equal(VectorHelper::at(frt.get_messages(), 0), Tree::MSG_ROOT_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_continue_when_entries_dir_fails()
@@ -82,7 +82,7 @@ void TreeTest::init_does_not_continue_when_entries_dir_fails()
     };
     FailingEntriesDirTree fet;
     assert_false(fet.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(fet.get_messages().at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
+    assert_equal(VectorHelper::at(fet.get_messages(), 0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_continue_when_projects_dir_fails()
@@ -99,7 +99,7 @@ void TreeTest::init_does_not_continue_when_projects_dir_fails()
     };
     FailingProjectsDirTree fpdt;
     assert_false(fpdt.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(fpdt.get_messages().at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
+    assert_equal(VectorHelper::at(fpdt.get_messages(), 0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_run_when_already_an_eon_dir()
@@ -111,7 +111,7 @@ void TreeTest::init_does_not_run_when_already_an_eon_dir()
     tree = Tree();
     assert_true(tree.init(datetime), "The first Tree::init()");
     assert_false(tree.init(datetime), "Tree::init() after the first init");
-    assert_equal(tree.get_messages().at(1), Tree::MSG_ALREADY_INITIALIZED);
+    assert_equal(VectorHelper::at(tree.get_messages(), 1), Tree::MSG_ALREADY_INITIALIZED);
 }
 
 void TreeTest::init_fails_if_config_file_fails()
@@ -128,7 +128,7 @@ void TreeTest::init_fails_if_config_file_fails()
     };
     FailingConfigFileTree fcft;
     assert_false(fcft.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(fcft.get_messages().at(0), Tree::MSG_INIT_FAILURE);
+    assert_equal(VectorHelper::at(fcft.get_messages(), 0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::init_fails_if_first_project_fails()
@@ -145,7 +145,7 @@ void TreeTest::init_fails_if_first_project_fails()
     };
     FailingFirstProjectTree ffpt;
     assert_false(ffpt.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(ffpt.get_messages().at(0), Tree::MSG_INIT_FAILURE);
+    assert_equal(VectorHelper::at(ffpt.get_messages(), 0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::init_fails_if_projects_file_fails()
@@ -162,7 +162,7 @@ void TreeTest::init_fails_if_projects_file_fails()
     };
     FailingProjectsFileTree fpft;
     assert_false(fpft.init(Date::current_date_with_time()), "Tree::init()");
-    assert_equal(fpft.get_messages().at(0), Tree::MSG_INIT_FAILURE);
+    assert_equal(VectorHelper::at(fpft.get_messages(), 0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::initial_config_string_is_correct()
