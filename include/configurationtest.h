@@ -9,6 +9,8 @@ class ConfigurationTest : public TestCase
         ConfigurationTest();
         virtual ~ConfigurationTest();
 
+        void alerts_if_invalid_config_row_found();
+        void reads_configuration();
         void test();
 };
 
