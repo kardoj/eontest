@@ -1,5 +1,5 @@
 #include <iostream>
-#include "date.h"
+#include "configurationtest.h"
 #include "eon.h"
 #include "projecttest.h"
 #include "treetest.h"
@@ -8,7 +8,6 @@ using namespace std;
 
 int main()
 {
-    // This can be used as a reference on how to pass params to the Eon object
     int argc = 1;
     char a1[] = { "eon " };
     char a2[] = { "" };
@@ -16,11 +15,14 @@ int main()
 
     Eon eon = Eon(argc, argv);
 
-    ProjectTest pt = ProjectTest();
+    ProjectTest pt;
     pt.test();
 
-    TreeTest tt = TreeTest();
+    TreeTest tt;
     tt.test();
+
+    ConfigurationTest ct;
+    ct.test();
 
     return 0;
 }
