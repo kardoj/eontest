@@ -34,8 +34,7 @@ void TreeTest::init_creates_required_folders_and_files()
     remove_dir_recursively(Tree::ROOT_DIR);
 
     string datetime = Date::current_date_with_time();
-    vector<string> messages_human;
-    assert_true(tree.init(datetime, messages_human), "Tree::init()");
+    assert_true(tree.init(datetime), "Tree::init()");
 
     assert_dir_exists(Tree::ROOT_DIR);
     assert_dir_exists(Tree::PROJECTS_DIR);
@@ -64,8 +63,9 @@ void TreeTest::init_does_not_continue_when_root_dir_fails()
         }
     };
     vector<string> messages_human;
-    assert_false(FailingRootTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_ROOT_DIR_FAILURE);
+    FailingRootTree frt;
+    assert_false(frt.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(frt.get_messages().at(0), Tree::MSG_ROOT_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_continue_when_entries_dir_fails()
@@ -80,9 +80,9 @@ void TreeTest::init_does_not_continue_when_entries_dir_fails()
             return "not*a*valid*dir";
         }
     };
-    vector<string> messages_human;
-    assert_false(FailingEntriesDirTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
+    FailingEntriesDirTree fet;
+    assert_false(fet.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(fet.get_messages().at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_continue_when_projects_dir_fails()
@@ -97,9 +97,9 @@ void TreeTest::init_does_not_continue_when_projects_dir_fails()
             return "not*a*valid*dir";
         }
     };
-    vector<string> messages_human;
-    assert_false(FailingProjectsDirTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
+    FailingProjectsDirTree fpdt;
+    assert_false(fpdt.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(fpdt.get_messages().at(0), Tree::MSG_ENTRIES_PROJECTS_DIR_FAILURE);
 }
 
 void TreeTest::init_does_not_run_when_already_an_eon_dir()
@@ -108,10 +108,10 @@ void TreeTest::init_does_not_run_when_already_an_eon_dir()
     remove_dir_recursively(Tree::ROOT_DIR);
 
     string datetime = Date::current_date_with_time();
-    vector<string> messages_human;
-    assert_true(tree.init(datetime, messages_human), "The first Tree::init()");
-    assert_false(tree.init(datetime, messages_human), "Tree::init() after the first init");
-    assert_equal(messages_human.at(1), Tree::MSG_ALREADY_INITIALIZED);
+    tree = Tree();
+    assert_true(tree.init(datetime), "The first Tree::init()");
+    assert_false(tree.init(datetime), "Tree::init() after the first init");
+    assert_equal(tree.get_messages().at(1), Tree::MSG_ALREADY_INITIALIZED);
 }
 
 void TreeTest::init_fails_if_config_file_fails()
@@ -126,9 +126,9 @@ void TreeTest::init_fails_if_config_file_fails()
             return "not*a*valid*file";
         }
     };
-    vector<string> messages_human;
-    assert_false(FailingConfigFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+    FailingConfigFileTree fcft;
+    assert_false(fcft.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(fcft.get_messages().at(0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::init_fails_if_first_project_fails()
@@ -143,9 +143,9 @@ void TreeTest::init_fails_if_first_project_fails()
             return false;
         }
     };
-    vector<string> messages_human;
-    assert_false(FailingFirstProjectTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+    FailingFirstProjectTree ffpt;
+    assert_false(ffpt.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(ffpt.get_messages().at(0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::init_fails_if_projects_file_fails()
@@ -160,9 +160,9 @@ void TreeTest::init_fails_if_projects_file_fails()
             return "not*a*valid*file";
         }
     };
-    vector<string> messages_human;
-    assert_false(FailingProjectsFileTree().init(Date::current_date_with_time(), messages_human), "Tree::init()");
-    assert_equal(messages_human.at(0), Tree::MSG_INIT_FAILURE);
+    FailingProjectsFileTree fpft;
+    assert_false(fpft.init(Date::current_date_with_time()), "Tree::init()");
+    assert_equal(fpft.get_messages().at(0), Tree::MSG_INIT_FAILURE);
 }
 
 void TreeTest::initial_config_string_is_correct()
@@ -173,8 +173,7 @@ void TreeTest::initial_config_string_is_correct()
     string datetime = Date::current_date_with_time();
     string dte = Date::current_date();
     char initial_config_str[Tree::INITIAL_CONFIG_LENGTH];
-    vector<string> messages_human;
-    tree.init(datetime, messages_human);
+    tree.init(datetime);
     tree.initial_config_str(dte, initial_config_str);
     assert_equal("date=" + dte + "\nproject_id=1\n", string(initial_config_str));
 }
@@ -184,8 +183,7 @@ void TreeTest::is_eon_dir()
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
 
-    vector<string> messages_human;
-    tree.init(Date::current_date_with_time(), messages_human);
+    tree.init(Date::current_date_with_time());
     assert_true(Tree::is_eon_dir(), "Tree::is_eon_dir()");
 }
 
@@ -202,8 +200,7 @@ void TreeTest::ensure_year_dir_creates_year_dir_if_needed()
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
 
-    vector<string> messages_human;
-    tree.init(Date::current_date_with_time(), messages_human);
+    tree.init(Date::current_date_with_time());
     string year = "2025";
     string test_path = string(Tree::ENTRIES_DIR) + "/" + year;
     assert_dir_not_exists(test_path);
