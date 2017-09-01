@@ -1,5 +1,6 @@
 #include <iostream>
 #include <helpers/vectorhelper.h>
+#include <project.h>
 #include "configuration.h"
 #include "configurationtest.h"
 #include "date.h"
@@ -15,6 +16,8 @@ void ConfigurationTest::test()
     cout << "=== ConfigurationTest ===" << endl;
     reads_configuration();
     alerts_if_invalid_config_row_found();
+    read_fails_if_config_file_fails();
+    read_sets_configuration_values();
     cout << endl;
 }
 
@@ -41,6 +44,34 @@ void ConfigurationTest::reads_configuration()
 {
     reset_eon(__FUNCTION__);
 
+    assert_true(Configuration().read(), "Configuration::read()");
+}
+
+void ConfigurationTest::read_fails_if_config_file_fails()
+{
+    reset_eon(__FUNCTION__);
+
+    class FailingConfigFileConfiguration : public Configuration
+    {
+        const char *config_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+
+    FailingConfigFileConfiguration fcfc;
+    fcfc.read();
+
+    assert_equal(Configuration::MSG_ERROR_OPENING_CONFIG_FILE, VectorHelper::at(fcfc.get_messages(), 0));
+}
+
+void ConfigurationTest::read_sets_configuration_values()
+{
+    reset_eon(__FUNCTION__);
+
     Configuration conf;
-    assert_true(conf.read(), "Configuration::read()");
+    conf.read();
+
+    assert_equal(Date::current_date(), conf.get_date());
+    assert_equal(1, conf.get_project_id());
 }
