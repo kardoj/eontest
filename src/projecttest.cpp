@@ -3,7 +3,7 @@
 #include "project.h"
 #include "projecttest.h"
 #include "tree.h"
-#include "vectorhelper.h"
+#include "helpers/vectorhelper.h"
 
 using namespace std;
 
@@ -24,11 +24,7 @@ void ProjectTest::test()
 
 void ProjectTest::adds_new_project()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    string datetime = Date::current_date_with_time();
-    Tree().init(datetime);
+    reset_eon(__FUNCTION__);
 
     char name[] = { "new project" };
     Project p;
@@ -41,11 +37,8 @@ void ProjectTest::adds_new_project()
 
 void ProjectTest::fails_adding_a_project_if_projects_file_fails()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
+    reset_eon(__FUNCTION__);
 
-    string datetime = Date::current_date_with_time();
-    Tree().init(datetime);
     char name[] = { "new project" };
 
     class FailingProjectsFileProject : public Project
@@ -63,10 +56,7 @@ void ProjectTest::fails_adding_a_project_if_projects_file_fails()
 
 void ProjectTest::project_does_not_exist()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    Tree().init(Date::current_date_with_time());
+    reset_eon(__FUNCTION__);
 
     int project_id = 0;
     assert_false(Project().exists("Some made up name", project_id), "Made up project by name");
@@ -78,10 +68,7 @@ void ProjectTest::project_does_not_exist()
 
 void ProjectTest::project_exists()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    Tree().init(Date::current_date_with_time());
+    reset_eon(__FUNCTION__);
 
     int project_id = 0;
     assert_true(Project().exists(Project::DEFAULT_PROJECT_NAME, project_id), "Default project by name");
@@ -93,10 +80,7 @@ void ProjectTest::project_exists()
 
 void ProjectTest::exists_fails_if_project_file_fails()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    Tree().init(Date::current_date_with_time());
+    reset_eon(__FUNCTION__);
 
     class FailingProjectsFileProject : public Project
     {
@@ -114,11 +98,7 @@ void ProjectTest::exists_fails_if_project_file_fails()
 
 void ProjectTest::fails_listing_projects_if_projects_file_fails()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    string datetime = Date::current_date_with_time();
-    Tree().init(datetime);
+    reset_eon(__FUNCTION__);
 
     class FailingProjectsFileProject : public Project
     {

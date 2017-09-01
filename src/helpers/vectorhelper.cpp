@@ -1,4 +1,4 @@
-#include "vectorhelper.h"
+#include "helpers/vectorhelper.h"
 
 using namespace std;
 

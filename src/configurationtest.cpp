@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vectorhelper.h>
+#include <helpers/vectorhelper.h>
 #include "configuration.h"
 #include "configurationtest.h"
 #include "date.h"
@@ -23,7 +23,6 @@ void ConfigurationTest::alerts_if_invalid_config_row_found()
     cout << "TEST " << __FUNCTION__ << endl;
     remove_dir_recursively(Tree::ROOT_DIR);
 
-    string datetime = Date::current_date_with_time();
     class InvalidConfigTree : public Tree
     {
         void initial_config_str(const string dte, char return_str[])
@@ -40,11 +39,7 @@ void ConfigurationTest::alerts_if_invalid_config_row_found()
 
 void ConfigurationTest::reads_configuration()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
-
-    string datetime = Date::current_date_with_time();
-    Tree().init(datetime);
+    reset_eon(__FUNCTION__);
 
     Configuration conf;
     assert_true(conf.read(), "Configuration::read()");

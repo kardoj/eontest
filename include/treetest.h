@@ -23,9 +23,6 @@ class TreeTest : public TestCase
         void is_eon_dir();
         void is_not_eon_dir();
         void test();
-
-    private:
-        Tree tree;
 };
 
 #endif // TREETEST_H

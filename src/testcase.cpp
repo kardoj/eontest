@@ -1,11 +1,17 @@
 #include <dirent.h>
 #include <iostream>
+#include <date.h>
+#include <tree.h>
 #include "sys/stat.h"
 #include "testcase.h"
 
 using namespace std;
 
-TestCase::TestCase() {}
+TestCase::TestCase()
+{
+    datetime = Date::current_date_with_time();
+}
+
 TestCase::~TestCase() {}
 
 void TestCase::assert_dir_exists(const string path)
@@ -135,4 +141,11 @@ void TestCase::assert_equal(const int one, const int two)
     {
         cout << "-- FAIL Expected an int [" << one << "] to be equal to [" << two << "]. " << endl;
     }
+}
+
+void TestCase::reset_eon(const string function_name)
+{
+    cout << "TEST " << function_name << endl;
+    remove_dir_recursively(Tree::ROOT_DIR);
+    tree.init(datetime);
 }

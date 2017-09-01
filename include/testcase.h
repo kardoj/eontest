@@ -2,6 +2,7 @@
 #define TESTCASE_H
 
 #include <string>
+#include "tree.h"
 
 class TestCase
 {
@@ -22,9 +23,12 @@ class TestCase
         void assert_true(const bool value, const std::string what_is_it);
         void assert_equal(const std::string one, const std::string two);
         void assert_equal(const int one, const int two);
+        void remove_dir_recursively(const std::string path);
+        void reset_eon(const std::string function_name);
 
     protected:
-        void remove_dir_recursively(const std::string path);
+        std::string datetime; // datetime object for use in the tests
+        Tree tree;
 };
 
 #endif // TESTCASE_H

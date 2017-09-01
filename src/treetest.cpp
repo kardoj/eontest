@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <vectorhelper.h>
+#include <helpers/vectorhelper.h>
 #include "date.h"
 #include "project.h"
 #include "tree.h"
@@ -180,10 +180,8 @@ void TreeTest::initial_config_string_is_correct()
 
 void TreeTest::is_eon_dir()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
+    reset_eon(__FUNCTION__);
 
-    tree.init(Date::current_date_with_time());
     assert_true(Tree::is_eon_dir(), "Tree::is_eon_dir()");
 }
 
@@ -197,10 +195,8 @@ void TreeTest::is_not_eon_dir()
 
 void TreeTest::ensure_year_dir_creates_year_dir_if_needed()
 {
-    cout << "TEST " << __FUNCTION__ << endl;
-    remove_dir_recursively(Tree::ROOT_DIR);
+    reset_eon(__FUNCTION__);
 
-    tree.init(Date::current_date_with_time());
     string year = "2025";
     string test_path = string(Tree::ENTRIES_DIR) + "/" + year;
     assert_dir_not_exists(test_path);
