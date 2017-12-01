@@ -20,6 +20,7 @@ void ConfigurationTest::test()
     read_sets_configuration_values();
     writes_configuration();
     writes_date();
+    writes_project_id();
     cout << endl;
 }
 
@@ -101,6 +102,19 @@ void ConfigurationTest::writes_date()
         Tree::CONFIG_FILE,
         Configuration::MAX_CONFIG_ROW_LENGTH
     );
+}
+
+void ConfigurationTest::writes_project_id()
+{
+    reset_eon(__FUNCTION__);
+
+    Configuration conf;
+    Project().add("Test", datetime);
+    conf.set_project_id("Test");
+    conf.write();
+
+    string expected = "date=" + dte + "\nproject_id=2\n";
+    assert_file_contents_equal(expected, Tree::CONFIG_FILE, Configuration::MAX_CONFIG_ROW_LENGTH);
 }
 
 

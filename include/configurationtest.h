@@ -15,6 +15,7 @@ class ConfigurationTest : public TestCase
         void read_sets_configuration_values();
         void writes_configuration();
         void writes_date();
+        void writes_project_id();
         void test();
 };
 
