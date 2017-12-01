@@ -26,6 +26,7 @@ void ConfigurationTest::test()
     set_from_param_sets_project_from_key();
     set_from_param_sets_date_from_short_key();
     set_from_param_sets_date_from_key();
+    set_from_param_does_not_set_invalid_project_id();
     cout << endl;
 }
 
@@ -145,6 +146,16 @@ void ConfigurationTest::set_from_param_sets_project_from_short_key()
     assert_true(
         Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY_SHORT, "1"),
         "Configuration::set_from_param()"
+    );
+}
+
+void ConfigurationTest::set_from_param_does_not_set_invalid_project_id()
+{
+    reset_eon(__FUNCTION__);
+
+    assert_false(
+            Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY, "10"),
+            "Configuration::set_from_param()"
     );
 }
 
