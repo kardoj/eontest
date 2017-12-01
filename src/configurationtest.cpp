@@ -88,9 +88,7 @@ void ConfigurationTest::writes_configuration()
 {
     reset_eon(__FUNCTION__);
 
-    Configuration conf;
-
-    assert_true(conf.write(), "Configuration::write()");
+    assert_true(Configuration().write(), "Configuration::write()");
 }
 
 void ConfigurationTest::writes_date()
