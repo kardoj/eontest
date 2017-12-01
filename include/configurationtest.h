@@ -16,6 +16,7 @@ class ConfigurationTest : public TestCase
         void writes_configuration();
         void writes_date();
         void writes_project_id();
+        void write_fails_if_config_file_fails();
         void test();
 };
 

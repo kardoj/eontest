@@ -21,6 +21,7 @@ void ConfigurationTest::test()
     writes_configuration();
     writes_date();
     writes_project_id();
+    write_fails_if_config_file_fails();
     cout << endl;
 }
 
@@ -115,6 +116,24 @@ void ConfigurationTest::writes_project_id()
 
     string expected = "date=" + dte + "\nproject_id=2\n";
     assert_file_contents_equal(expected, Tree::CONFIG_FILE, Configuration::MAX_CONFIG_ROW_LENGTH);
+}
+
+void ConfigurationTest::write_fails_if_config_file_fails()
+{
+    reset_eon(__FUNCTION__);
+
+    class FailingConfigFileConfiguration : public Configuration
+    {
+        const char *config_file()
+        {
+            return "not*a*valid*file";
+        }
+    };
+
+    FailingConfigFileConfiguration fcfc;
+    fcfc.write();
+
+    assert_equal(Configuration::MSG_ERROR_OPENING_CONFIG_FILE, VectorHelper::at(fcfc.get_messages(), 0));
 }
 
 
