@@ -19,6 +19,7 @@ class ConfigurationTest : public TestCase
         void write_fails_if_config_file_fails();
         void set_from_param_sets_project_from_short_key();
         void set_from_param_sets_project_from_key();
+        void set_from_param_sets_date_from_short_key();
         void test();
 };
 

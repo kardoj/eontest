@@ -24,6 +24,7 @@ void ConfigurationTest::test()
     write_fails_if_config_file_fails();
     set_from_param_sets_project_from_short_key();
     set_from_param_sets_project_from_key();
+    set_from_param_sets_date_from_short_key();
     cout << endl;
 }
 
@@ -154,6 +155,16 @@ void ConfigurationTest::set_from_param_sets_project_from_key()
 
     assert_true(
         Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY, "1"),
+        "Configuration::set_from_param()"
+    );
+}
+
+void ConfigurationTest::set_from_param_sets_date_from_short_key()
+{
+    reset_eon(__FUNCTION__);
+
+    assert_true(
+        Configuration().set_from_param(Configuration::DATE_PARAM_KEY_SHORT, dte),
         "Configuration::set_from_param()"
     );
 }
