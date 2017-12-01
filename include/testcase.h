@@ -28,6 +28,7 @@ class TestCase
 
     protected:
         std::string datetime; // datetime object for use in the tests
+        std::string dte;
         Tree tree;
 };
 

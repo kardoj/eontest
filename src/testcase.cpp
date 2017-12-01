@@ -10,6 +10,7 @@ using namespace std;
 TestCase::TestCase()
 {
     datetime = Date::current_date_with_time();
+    dte = Date::get_date(datetime);
 }
 
 TestCase::~TestCase() {}
