@@ -20,6 +20,7 @@ class ConfigurationTest : public TestCase
         void set_from_param_sets_project_from_short_key();
         void set_from_param_sets_project_from_key();
         void set_from_param_sets_date_from_short_key();
+        void set_from_param_sets_date_from_key();
         void test();
 };
 
