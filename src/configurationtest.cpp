@@ -22,6 +22,7 @@ void ConfigurationTest::test()
     writes_date();
     writes_project_id();
     write_fails_if_config_file_fails();
+    set_from_param_sets_project_from_short_key();
     cout << endl;
 }
 
@@ -136,4 +137,12 @@ void ConfigurationTest::write_fails_if_config_file_fails()
     assert_equal(Configuration::MSG_ERROR_OPENING_CONFIG_FILE, VectorHelper::at(fcfc.get_messages(), 0));
 }
 
+void ConfigurationTest::set_from_param_sets_project_from_short_key()
+{
+    reset_eon(__FUNCTION__);
 
+    assert_true(
+        Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY_SHORT, "1"),
+        "Configuration::set_from_param()"
+    );
+}
