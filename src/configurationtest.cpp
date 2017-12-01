@@ -23,10 +23,11 @@ void ConfigurationTest::test()
     writes_project_id();
     write_fails_if_config_file_fails();
     set_from_param_sets_project_from_short_key();
+    set_from_param_does_not_set_invalid_project_id();
     set_from_param_sets_project_from_key();
     set_from_param_sets_date_from_short_key();
+    set_from_param_does_not_set_invalid_date();
     set_from_param_sets_date_from_key();
-    set_from_param_does_not_set_invalid_project_id();
     cout << endl;
 }
 
@@ -176,6 +177,16 @@ void ConfigurationTest::set_from_param_sets_date_from_short_key()
     assert_true(
         Configuration().set_from_param(Configuration::DATE_PARAM_KEY_SHORT, dte),
         "Configuration::set_from_param()"
+    );
+}
+
+void ConfigurationTest::set_from_param_does_not_set_invalid_date()
+{
+    reset_eon(__FUNCTION__);
+
+    assert_false(
+            Configuration().set_from_param(Configuration::DATE_PARAM_KEY, "-invalid-"),
+            "Configuration::set_from_param()"
     );
 }
 
