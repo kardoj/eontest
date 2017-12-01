@@ -19,6 +19,7 @@ void ConfigurationTest::test()
     read_fails_if_config_file_fails();
     read_sets_configuration_values();
     writes_configuration();
+    writes_date();
     cout << endl;
 }
 
@@ -84,6 +85,22 @@ void ConfigurationTest::writes_configuration()
     Configuration conf;
 
     assert_true(conf.write(), "Configuration::write()");
+}
+
+void ConfigurationTest::writes_date()
+{
+    reset_eon(__FUNCTION__);
+
+    Configuration conf;
+    string date = "2017-12-01";
+    conf.set_date(date);
+    conf.write();
+
+    assert_file_contents_equal(
+        "date=2017-12-01\nproject_id=1\n",
+        Tree::CONFIG_FILE,
+        Configuration::MAX_CONFIG_ROW_LENGTH
+    );
 }
 
 

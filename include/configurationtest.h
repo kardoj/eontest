@@ -14,6 +14,7 @@ class ConfigurationTest : public TestCase
         void read_fails_if_config_file_fails();
         void read_sets_configuration_values();
         void writes_configuration();
+        void writes_date();
         void test();
 };
 
