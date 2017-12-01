@@ -23,6 +23,7 @@ void ConfigurationTest::test()
     writes_project_id();
     write_fails_if_config_file_fails();
     set_from_param_sets_project_from_short_key();
+    set_from_param_sets_project_from_key();
     cout << endl;
 }
 
@@ -143,6 +144,16 @@ void ConfigurationTest::set_from_param_sets_project_from_short_key()
 
     assert_true(
         Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY_SHORT, "1"),
+        "Configuration::set_from_param()"
+    );
+}
+
+void ConfigurationTest::set_from_param_sets_project_from_key()
+{
+    reset_eon(__FUNCTION__);
+
+    assert_true(
+        Configuration().set_from_param(Configuration::PROJECT_PARAM_KEY, "1"),
         "Configuration::set_from_param()"
     );
 }
