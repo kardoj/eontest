@@ -18,6 +18,7 @@ void ConfigurationTest::test()
     alerts_if_invalid_config_row_found();
     read_fails_if_config_file_fails();
     read_sets_configuration_values();
+    writes_configuration();
     cout << endl;
 }
 
@@ -75,3 +76,14 @@ void ConfigurationTest::read_sets_configuration_values()
     assert_equal(Date::current_date(), conf.get_date());
     assert_equal(1, conf.get_project_id());
 }
+
+void ConfigurationTest::writes_configuration()
+{
+    reset_eon(__FUNCTION__);
+
+    Configuration conf;
+
+    assert_true(conf.write(), "Configuration::write()");
+}
+
+
