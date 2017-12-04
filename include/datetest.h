@@ -9,10 +9,12 @@ class DateTest : public TestCase
         DateTest();
         virtual ~DateTest();
         void parses_a_date_from_yyyy_mm_dd_string();
+        void parses_a_date_from_dd_mm_yyyy_string();
         void test();
 
     private:
         static void create_date_yyyy_mm_dd_no_exception();
+        static void create_date_dd_mm_yyyy_no_exception();
 };
 
 #endif //EONTEST_DATETEST_H
