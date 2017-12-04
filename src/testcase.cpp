@@ -144,6 +144,42 @@ void TestCase::assert_equal(const int one, const int two)
     }
 }
 
+void TestCase::assert_exception(function<void()> func, const string what_is_it)
+{
+    bool thrown = false;
+    try
+    {
+        func();
+    }
+    catch (exception &e)
+    {
+        thrown = true;
+    }
+
+    if (!thrown)
+    {
+        cout << "-- FAIL Expected [" << what_is_it << "] to throw an exception but it did not." << endl;
+    }
+}
+
+void TestCase::assert_no_exception(function<void()> func, const string what_is_it)
+{
+    bool thrown = false;
+    try
+    {
+        func();
+    }
+    catch (exception &e)
+    {
+        thrown = true;
+    }
+
+    if (thrown)
+    {
+        cout << "-- FAIL Expected [" << what_is_it << "] not to throw an exception but it did." << endl;
+    }
+}
+
 void TestCase::reset_eon(const string function_name)
 {
     cout << "TEST " << function_name << endl;

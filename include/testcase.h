@@ -20,6 +20,8 @@ class TestCase
         );
         void assert_false(const bool value, const std::string what_is_it);
         void assert_file_exists(const std::string path);
+        void assert_exception(std::function<void()> func, const std::string what_is_it);
+        void assert_no_exception(std::function<void()> func, const std::string what_is_it);
         void assert_true(const bool value, const std::string what_is_it);
         void assert_equal(const std::string one, const std::string two);
         void assert_equal(const int one, const int two);
