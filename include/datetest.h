@@ -12,7 +12,7 @@ class DateTest : public TestCase
         void test();
 
     private:
-        static void create_date_no_exception();
+        static void create_date_yyyy_mm_dd_no_exception();
 };
 
 #endif //EONTEST_DATETEST_H
