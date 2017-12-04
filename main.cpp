@@ -1,4 +1,5 @@
 #include <iostream>
+#include <datetest.h>
 #include "configurationtest.h"
 #include "eon.h"
 #include "projecttest.h"
@@ -23,6 +24,9 @@ int main()
 
     ConfigurationTest ct;
     ct.test();
+
+    DateTest dt;
+    dt.test();
 
     return 0;
 }
