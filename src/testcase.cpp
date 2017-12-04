@@ -144,12 +144,12 @@ void TestCase::assert_equal(const int one, const int two)
     }
 }
 
-void TestCase::assert_exception(function<void()> func, const string what_is_it)
+void TestCase::assert_exception(void (*func)(), const string what_is_it)
 {
     bool thrown = false;
     try
     {
-        func();
+        (*func)();
     }
     catch (exception &e)
     {
@@ -162,12 +162,12 @@ void TestCase::assert_exception(function<void()> func, const string what_is_it)
     }
 }
 
-void TestCase::assert_no_exception(function<void()> func, const string what_is_it)
+void TestCase::assert_no_exception(void (*func)(), const string what_is_it)
 {
     bool thrown = false;
     try
     {
-        func();
+        (*func)();
     }
     catch (exception &e)
     {
